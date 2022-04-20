@@ -1,4 +1,4 @@
-package com.example.mealgo3.activities;
+package com.example.mealgo3.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 

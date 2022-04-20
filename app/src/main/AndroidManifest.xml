@@ -11,7 +11,7 @@
         android:theme="@style/Theme.Mealgo3">
 
         <activity
-            android:name=".activities.SignInActivity"
+            android:name=".login.SignInActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter>
@@ -22,11 +22,11 @@
         </activity>
 
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name=".login.SignUpActivity"
             android:exported="false" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".domain.MainActivity"
             android:exported="true">
 
         </activity>
