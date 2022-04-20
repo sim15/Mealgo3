@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "555953112089",
+    "firebase_url": "https://mealgo-a5d11-default-rtdb.firebaseio.com",
+    "project_id": "mealgo-a5d11",
+    "storage_bucket": "mealgo-a5d11.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555953112089:android:dcc36fc7c433e8f983d688",
+        "android_client_info": {
+          "package_name": "com.example.mealgo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "555953112089-lb3dcdejrkff88go1bb7kvh0654jt40p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuUBup3oVRPqrtk99fr3Er84Qm_9rnof4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "555953112089-lb3dcdejrkff88go1bb7kvh0654jt40p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555953112089:android:18826bf0b826d9b183d688",
+        "android_client_info": {
+          "package_name": "com.example.mealgo3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "555953112089-lb3dcdejrkff88go1bb7kvh0654jt40p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuUBup3oVRPqrtk99fr3Er84Qm_9rnof4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "555953112089-lb3dcdejrkff88go1bb7kvh0654jt40p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

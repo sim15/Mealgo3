@@ -5,6 +5,9 @@ pluginManagement {
         mavenCentral()
     }
 }
+// Note 4/20/22: commented out to fix 'Build was configured to prefer settings repositories...' error
+// while setting up Firebase.
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
