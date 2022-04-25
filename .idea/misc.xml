@@ -6,9 +6,14 @@
         <entry key="app/src/main/res/drawable/background_button.xml" value="0.41" />
         <entry key="app/src/main/res/drawable/background_image.xml" value="0.41" />
         <entry key="app/src/main/res/drawable/background_input.xml" value="0.41" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.5606884057971014" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.33" />
+        <entry key="app/src/main/res/layouts/layout_menu/layout/fragment_menu.xml" value="0.465625" />
+        <entry key="app/src/main/res/layouts/layout_search/layout/fragment_menu.xml" value="0.465625" />
+        <entry key="app/src/main/res/layouts/layout_search/layout/fragment_search.xml" value="0.33" />
+        <entry key="app/src/main/res/layouts/layout_search/layout/layout_search_item.xml" value="0.465625" />
+        <entry key="app/src/main/res/layouts/layout_search/layout/search_bar.xml" value="0.465625" />
       </map>
     </option>
   </component>

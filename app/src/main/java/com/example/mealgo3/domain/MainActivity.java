@@ -12,8 +12,9 @@ import com.example.mealgo3.databinding.ActivityMainBinding;
 import com.example.mealgo3.databinding.ActivitySignInBinding;
 import com.example.mealgo3.login.SignUpActivity;
 import com.example.mealgo3.nav.MenuFragment;
+import com.example.mealgo3.search.SearchFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchFragment.OnFragmentInteractionListener {
 
     private ActivityMainBinding binding;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setListeners();
+        loadSearch();
     }
 
     private void setListeners() {
@@ -42,4 +44,17 @@ public class MainActivity extends AppCompatActivity {
         transaction.add(R.id.menuFragment, fragment, "MENU_FRAGMENT").commit();
     }
 
+    private void loadSearch() {
+        SearchFragment fragment = SearchFragment.newInstance("nutrients", "ingredients", "recipes");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.addToBackStack(null);
+        transaction.add(R.id.searchFragment, fragment, "SEARCH_FRAGMENT").commit();
+        System.out.println("YESS!!!");
+    }
+
+    @Override
+    public void onFragmentInteraction(String sendBackText) {
+        System.out.println(sendBackText);
+    }
 }
