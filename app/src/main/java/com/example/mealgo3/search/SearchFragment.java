@@ -2,6 +2,7 @@ package com.example.mealgo3.search;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +15,12 @@ import com.example.mealgo3.R;
 import com.example.mealgo3.data.Ingredient;
 import com.example.mealgo3.data.Nutrient;
 import com.example.mealgo3.data.Recipe;
+import com.example.mealgo3.data.recyclerview.IngredientsViewHolder;
 import com.example.mealgo3.data.recyclerview.RandomNumListAdapter;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -26,6 +32,7 @@ import java.util.ArrayList;
 public class SearchFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    private DatabaseReference ingredientDatabase;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,6 +76,7 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        ingredientDatabase = FirebaseDatabase.getInstance().getReference("ingredient nutrition");
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             queryType = getArguments().getStringArrayList(String.valueOf(QUERY_TYPE));
@@ -86,7 +94,31 @@ public class SearchFragment extends Fragment {
         recyclerView.setLayoutManager(new
                         LinearLayoutManager(view.getContext())
                 );
-        recyclerView.setAdapter(new RandomNumListAdapter(1234));
+
+        FirebaseRecyclerOptions<Ingredient> options =
+                new FirebaseRecyclerOptions.Builder<Ingredient>()
+                .setQuery(ingredientDatabase,Ingredient.class)
+                .build();
+
+
+        FirebaseRecyclerAdapter<Ingredient,IngredientsViewHolder> firebaseRecycler = new FirebaseRecyclerAdapter<Ingredient, IngredientsViewHolder>(options)
+        {
+            @Override
+            protected void onBindViewHolder(@NonNull IngredientsViewHolder holder, int position, @NonNull Ingredient model) {
+                holder.setDetails(model.getIngredientName());
+            }
+
+            @NonNull
+            @Override
+            public IngredientsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.layout_search_item, parent, false);
+
+                return new IngredientsViewHolder(view);
+            }
+        };
+        firebaseRecycler.startListening();
+        recyclerView.setAdapter(firebaseRecycler);
 
 
         return view;
