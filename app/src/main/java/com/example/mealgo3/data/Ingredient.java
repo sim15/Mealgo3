@@ -24,6 +24,7 @@ package com.example.mealgo3.data;
 //
 //}
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Ingredient {
@@ -35,13 +36,14 @@ public class Ingredient {
    public Integer servingSize;
    public String servingSizeUnit;
    public Integer similarity;
+   public ArrayList<String> substrings;
 
 
    public Ingredient() {
 
    }
 
-    public Ingredient(String foodCategory, Map<String, Nutrient> foodNutrients, String ingredientName, String ingredients, String lowercaseDescription, Integer servingSize, String servingSizeUnit, Integer similarity) {
+    public Ingredient(String foodCategory, Map<String, Nutrient> foodNutrients, String ingredientName, String ingredients, String lowercaseDescription, Integer servingSize, String servingSizeUnit, Integer similarity, ArrayList<String> substrings) {
         this.foodCategory = foodCategory;
         this.foodNutrients = foodNutrients;
         this.ingredientName = ingredientName;
@@ -50,6 +52,7 @@ public class Ingredient {
         this.servingSize = servingSize;
         this.servingSizeUnit = servingSizeUnit;
         this.similarity = similarity;
+        this.substrings = substrings;
     }
 
     public String getFoodCategory() {
@@ -114,5 +117,13 @@ public class Ingredient {
 
     public void setSimilarity(Integer similarity) {
         this.similarity = similarity;
+    }
+
+    public ArrayList<String> getSubstrings() {
+        return substrings;
+    }
+
+    public void setSubstrings(ArrayList<String> substrings) {
+        this.substrings = substrings;
     }
 }

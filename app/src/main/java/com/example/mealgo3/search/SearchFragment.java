@@ -7,9 +7,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.mealgo3.R;
 import com.example.mealgo3.data.Ingredient;
@@ -17,10 +20,13 @@ import com.example.mealgo3.data.Nutrient;
 import com.example.mealgo3.data.Recipe;
 import com.example.mealgo3.data.recyclerview.IngredientsViewHolder;
 import com.example.mealgo3.data.recyclerview.RandomNumListAdapter;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 
@@ -32,7 +38,11 @@ import java.util.ArrayList;
 public class SearchFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private DatabaseReference ingredientDatabase;
+    private CollectionReference ingredientDatabase;
+    private String searchBarValue;
+    private FirestoreRecyclerAdapter<Ingredient,IngredientsViewHolder> firestoreRecycler;
+
+    private FirestoreRecyclerOptions<Ingredient> options;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,7 +86,7 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        ingredientDatabase = FirebaseDatabase.getInstance().getReference("ingredient nutrition");
+        ingredientDatabase = FirebaseFirestore.getInstance().collection("food-data");
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             queryType = getArguments().getStringArrayList(String.valueOf(QUERY_TYPE));
@@ -87,39 +97,49 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+
 
         recyclerView = view.findViewById(R.id.search_result_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new
-                        LinearLayoutManager(view.getContext())
-                );
-
-        FirebaseRecyclerOptions<Ingredient> options =
-                new FirebaseRecyclerOptions.Builder<Ingredient>()
-                .setQuery(ingredientDatabase,Ingredient.class)
-                .build();
+                LinearLayoutManager(view.getContext())
+        );
 
 
-        FirebaseRecyclerAdapter<Ingredient,IngredientsViewHolder> firebaseRecycler = new FirebaseRecyclerAdapter<Ingredient, IngredientsViewHolder>(options)
-        {
+//        searchBarValue = String.valueOf(charSequence);
+        searchBarValue = "YES! OK!";
+        System.out.println(searchBarValue);
+
+        // TODO 4/27/22: DRY-- potentially too much re-computation going on here.
+
+        Query newSearchQuery = ingredientDatabase.orderBy("similarity");
+
+        updateRecyclerSearch(newSearchQuery);
+
+
+        EditText searchBarBox = (EditText) view.findViewById(R.id.search_field);
+        searchBarBox.addTextChangedListener(new TextWatcher() {
             @Override
-            protected void onBindViewHolder(@NonNull IngredientsViewHolder holder, int position, @NonNull Ingredient model) {
-                holder.setDetails(model.getIngredientName());
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
-            @NonNull
             @Override
-            public IngredientsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.layout_search_item, parent, false);
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchBarValue = String.valueOf(charSequence);
+                Query newQuery = ingredientDatabase.whereArrayContains("substrings", searchBarValue);
+                System.out.println(searchBarValue);
 
-                return new IngredientsViewHolder(view);
+                updateRecyclerSearch(newQuery);
             }
-        };
-        firebaseRecycler.startListening();
-        recyclerView.setAdapter(firebaseRecycler);
 
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         return view;
     }
@@ -132,5 +152,36 @@ public class SearchFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(String sendBackText);
+    }
+
+
+    // TODO: 4/29/2022
+    private void updateRecyclerSearch(Query searchQuery) {
+
+//        TODO: Decide limit for number of items returned.
+        options =
+                new FirestoreRecyclerOptions.Builder<Ingredient>()
+                        .setQuery(searchQuery.limit(50), Ingredient.class)
+                        .build();
+
+        firestoreRecycler = new FirestoreRecyclerAdapter<Ingredient, IngredientsViewHolder>(options)
+        {
+            @Override
+            protected void onBindViewHolder(@NonNull IngredientsViewHolder holder, int position, @NonNull Ingredient model) {
+                holder.setDetails(model.getIngredientName());
+            }
+
+            @NonNull
+            @Override
+            public IngredientsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View aView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.layout_search_item, parent, false);
+
+                return new IngredientsViewHolder(aView);
+            }
+        };
+
+        firestoreRecycler.startListening();
+        recyclerView.setAdapter(firestoreRecycler);
     }
 }

@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         SearchFragment fragment = SearchFragment.newInstance("nutrients", "ingredients", "recipes");
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.addToBackStack(null);
+//        transaction.addToBackStack(null);
         transaction.add(R.id.searchFragment, fragment, "SEARCH_FRAGMENT").commit();
         System.out.println("YESS!!!");
     }
