@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.mealgo3.R;
+import com.example.mealgo3.data.Ingredient;
 import com.example.mealgo3.databinding.ActivityMainBinding;
 import com.example.mealgo3.databinding.ActivitySignInBinding;
 import com.example.mealgo3.login.SignUpActivity;
@@ -50,7 +51,15 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 //        transaction.addToBackStack(null);
         transaction.add(R.id.searchFragment, fragment, "SEARCH_FRAGMENT").commit();
-        System.out.println("YESS!!!");
+
+        fragment.setOnSelectedItem(new SearchFragment.OnSelectedItem() {
+            @Override
+            public void onSelectedItem(Ingredient selectedIngredient) {
+                System.out.println(selectedIngredient.getIngredientName());
+            }
+        });
+
+
     }
 
     @Override

@@ -23,6 +23,7 @@ import com.example.mealgo3.data.recyclerview.IngredientsViewHolder;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -34,6 +35,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class SearchFragment extends Fragment {
+    private SearchFragment.OnSelectedItem listener;
 
     private RecyclerView recyclerView;
     private CollectionReference db;
@@ -163,10 +165,29 @@ public class SearchFragment extends Fragment {
                         .setQuery(searchQuery.limit(50), Ingredient.class)
                         .build();
 
-//        ingAdapter = new IngredientAdapter(options);
         ingAdapter.updateOptions(options);
 
         ingAdapter.startListening();
         recyclerView.setAdapter(ingAdapter);
+        ingAdapter.setOnItemClickListener(new IngredientAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                Ingredient clicked = documentSnapshot.toObject(Ingredient.class);
+//                System.out.println(clicked.getIngredientName());
+                if (listener != null) {
+                    listener.onSelectedItem(clicked);
+                }
+            }
+        });
     }
+
+
+    public interface OnSelectedItem {
+        void onSelectedItem(Ingredient selectedIngredient);
+    }
+
+    public void setOnSelectedItem(SearchFragment.OnSelectedItem listener) {
+        this.listener = listener;
+    }
+
 }
