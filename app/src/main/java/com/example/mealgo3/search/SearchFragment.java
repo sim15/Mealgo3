@@ -60,8 +60,6 @@ public class SearchFragment extends Fragment {
     private ArrayList<Ingredient> selectedIngredients;
     private ArrayList<Recipe> selectedRecipes;
 
-    private OnFragmentInteractionListener mListener;
-
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -121,6 +119,8 @@ public class SearchFragment extends Fragment {
         // TODO 4/27/22: DRY-- potentially too much re-computation going on here.
 
         EditText searchBarBox = (EditText) view.findViewById(R.id.search_field);
+
+
         searchBarBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -142,17 +142,19 @@ public class SearchFragment extends Fragment {
             }
         });
 
+
+        searchBarBox.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    recyclerView.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.GONE);
+                }
+            }
+        });
+
         return view;
-    }
-
-    public void sendBack(String sendBackText) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(sendBackText);
-        }
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String sendBackText);
     }
 
 // https://www.youtube.com/watch?v=3WR4QAiVuCw&list=PLrnPJCHvNZuAXdWxOzsN5rgG2M4uJ8bH1&index=6

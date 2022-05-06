@@ -19,11 +19,28 @@
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"/>
 
+        <HorizontalScrollView
+            android:id="@+id/ingredientChips"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_gravity="center_horizontal"
+            android:overScrollMode="never">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/selectedChipGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"/>
+
+
+        </HorizontalScrollView>
+
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/searchFragment"
             android:layout_width="@dimen/_200sdp"
-            android:layout_height="474dp"
+            android:layout_height="@dimen/_180sdp"
             android:layout_gravity="center_horizontal"
             android:overScrollMode="never" />
 

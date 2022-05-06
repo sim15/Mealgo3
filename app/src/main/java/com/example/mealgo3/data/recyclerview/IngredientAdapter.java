@@ -14,6 +14,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+
+
 public class IngredientAdapter extends FirestoreRecyclerAdapter<Ingredient, IngredientAdapter.IngredientHolder> {
     private OnItemClickListener listener;
 
@@ -23,7 +25,12 @@ public class IngredientAdapter extends FirestoreRecyclerAdapter<Ingredient, Ingr
 
     @Override
     protected void onBindViewHolder(@NonNull IngredientHolder holder, int position, @NonNull Ingredient model) {
-        holder.ingredientName.setText(model.getIngredientName());
+        String toSet = model.getIngredientName();
+        // Display capitalized name
+        if (toSet.length() > 0) {
+            toSet = toSet.substring(0, 1).toUpperCase() + toSet.substring(1);
+        }
+        holder.ingredientName.setText(toSet);
     }
 
     @NonNull
