@@ -27,14 +27,15 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         setContentView(binding.getRoot());
 
         setListeners();
-        loadSearch();
+       loadSearch();
+        openMenu();
     }
 
-    private void setListeners() {
+    public  void setListeners() {
         binding.buttonMenu.setOnClickListener(v -> openMenu());
     }
 
-    private void openMenu() {
+    public void openMenu() {
 //        https://www.youtube.com/watch?v=BMTNaPcPjdw
         MenuFragment fragment = MenuFragment.newInstance();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -42,6 +43,13 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_from_left, R.anim.enter_from_left, R.anim.exit_from_left);
         transaction.addToBackStack(null);
         transaction.add(R.id.menuFragment, fragment, "MENU_FRAGMENT").commit();
+
+        fragment.setOnSelectedMenu(new MenuFragment.OnSelectedMenuItem() {
+            @Override
+            public void onSelectedMenu(String menuButton) {
+                System.out.print(menuButton);
+            }
+        });
     }
 
     private void loadSearch() {
@@ -57,4 +65,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     public void onFragmentInteraction(String sendBackText) {
         System.out.println(sendBackText);
     }
+
+
 }

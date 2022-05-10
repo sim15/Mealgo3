@@ -26,6 +26,12 @@
                 android:text="MENU"
                 android:textColor="@color/white" />
 
+            <Button
+                android:id="@+id/toQuiz"
+                android:layout_width="match_parent"
+                android:layout_height="87dp"
+                android:text="@string/toQuiz" />
+
         </LinearLayout>
 
 

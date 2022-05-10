@@ -1,3 +1,14 @@
 <resources>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="submitButton">Submit</string>
+    <string name="simpleRatingBar">Rate Food</string>
+    <string name="food">recipe names</string>
+    <string-array name="nomes">
+        <item>bean</item>
+        <item>corn</item>
+        <item>tomatoe</item>
+        <item>cheese</item>
+        <item>meat</item>
+    </string-array>
+    <string name="buttonskip">skip</string>
 </resources>
