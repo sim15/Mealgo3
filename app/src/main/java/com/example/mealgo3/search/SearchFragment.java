@@ -36,6 +36,8 @@ import java.util.ArrayList;
  */
 public class SearchFragment extends Fragment {
     private SearchFragment.OnSelectedItem listener;
+    private static final ArrayList<String> TO_INCLUDE = new ArrayList<String>();
+    private static final ArrayList<String> TO_EXCLUDE = new ArrayList<String>();
 
     private RecyclerView recyclerView;
     private CollectionReference db;
@@ -60,24 +62,20 @@ public class SearchFragment extends Fragment {
     private ArrayList<Ingredient> selectedIngredients;
     private ArrayList<Recipe> selectedRecipes;
 
+    private ArrayList<String> includedItems;
+    private ArrayList<String> excludedItems;
+
     public SearchFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String query1, String ... queries) {
+    public static SearchFragment newInstance(ArrayList<String> includeQueries, ArrayList<String> excludeQueries) {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
-        ArrayList<String> queryParams = new ArrayList<String>() {
-            {
-                add(query1);
-                for (String query : queries) {
-                    add(query);
-                }
-            }
-        };
 
-        args.putStringArrayList(String.valueOf(QUERY_TYPE), queryParams);
+        args.putStringArrayList(String.valueOf(TO_INCLUDE), includeQueries);
+        args.putStringArrayList(String.valueOf(TO_EXCLUDE), excludeQueries);
         fragment.setArguments(args);
         return fragment;
     }
@@ -87,12 +85,13 @@ public class SearchFragment extends Fragment {
         db = FirebaseFirestore.getInstance().collection("food-data");
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            queryType = getArguments().getStringArrayList(String.valueOf(QUERY_TYPE));
+            includedItems = getArguments().getStringArrayList(String.valueOf(TO_INCLUDE));
+            excludedItems = getArguments().getStringArrayList(String.valueOf(TO_EXCLUDE));
         }
 
         options =
                 new FirestoreRecyclerOptions.Builder<Ingredient>()
-                        .setQuery(db.whereArrayContains("substrings", "pizza").limit(50), Ingredient.class)
+                        .setQuery(db.whereArrayContains("substrings", "").limit(50), Ingredient.class)
                         .build();
 
         ingAdapter = new IngredientAdapter(options);

@@ -19,9 +19,13 @@ import com.example.mealgo3.search.SearchFragment;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private ArrayList<Map<String, ArrayList<String>>> ingredientCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,57 +54,64 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadSearch() {
-        SearchFragment fragment = SearchFragment.newInstance("nutrients", "ingredients", "recipes");
+        loadChipGroupSearchFragment(R.id.includeIngredientsSearch, "SEARCH_FRAGMENT", binding.includeIngredientsChips, binding.includeIngredientsScroll);
+        loadChipGroupSearchFragment(R.id.excludeIngredientsSearch, "SEARCH_FRAGMENT", binding.excludeIngredientsChips, binding.excludeIngredientsScroll);
+    }
+
+    public SearchFragment loadSearchFragment(int containerViewId, String fragmentTag) {
+        SearchFragment fragment = SearchFragment.newInstance(new ArrayList<String>(), new ArrayList<String>());
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 //        transaction.addToBackStack(null);
 
-        transaction.add(R.id.searchFragment, fragment, "SEARCH_FRAGMENT").commit();
+        transaction.add(containerViewId, fragment, fragmentTag).commit();
+        return fragment;
+    }
 
-        fragment.setOnSelectedItem(new SearchFragment.OnSelectedItem() {
-            @Override
-            public void onSelectedItem(Ingredient selectedIngredient) {
-                Chip ingChip = new Chip(
-                        binding.selectedChipGroup.getContext()
-                );
-
-
-                ingChip.setText(selectedIngredient.getIngredientName());
-                ingChip.setOnClickListener(new View.OnClickListener() {
+    public void loadChipGroupSearchFragment(int containerViewId, String fragmentTag, ChipGroup cg, HorizontalScrollView chipScrollbar) {
+        loadSearchFragment(containerViewId, fragmentTag)
+                .setOnSelectedItem(new SearchFragment.OnSelectedItem() {
                     @Override
-                    public void onClick(View view) {
-                        binding.selectedChipGroup.removeView(ingChip);
+                    public void onSelectedItem(Ingredient selectedIngredient) {
+                        Chip ingChip = new Chip(
+                               cg.getContext()
+                        );
+
+
+                        ingChip.setText(selectedIngredient.getIngredientName());
+                        ingChip.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                cg.removeView(ingChip);
+                            }
+                        });
+
+                        for (int i = 0; i < cg.getChildCount(); i++) {
+                            if (((Chip) cg.getChildAt(i)).getText().toString()
+                                    .equals(selectedIngredient.getIngredientName())) {
+
+                                cg.removeView(cg.getChildAt(i));
+                            }
+                        }
+
+                        cg.addView(
+                                ingChip
+                        );
+
+                        // Remove duplicate chips
+
+
+                        chipScrollbar.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+
+                        // Update horizontal scroll on following UI-refresh iteration.
+                        chipScrollbar.post(new Runnable() {
+                            public void run() {
+                                chipScrollbar.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+                            }
+                        });
+
                     }
                 });
-
-                for (int i = 0; i < binding.selectedChipGroup.getChildCount(); i++) {
-                    if (((Chip) binding.selectedChipGroup.getChildAt(i)).getText().toString()
-                            .equals(selectedIngredient.getIngredientName())) {
-
-                        binding.selectedChipGroup.removeView(binding.selectedChipGroup.getChildAt(i));
-                    }
-                }
-
-                binding.selectedChipGroup.addView(
-                    ingChip
-                );
-
-                // Remove duplicate chips
-
-
-                binding.ingredientChips.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-
-                // Update horizontal scroll on following UI-refresh iteration.
-                binding.ingredientChips.post(new Runnable() {
-                    public void run() {
-                        binding.ingredientChips.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-                    }
-                });
-
-            }
-        });
-
-
     }
 
 }
