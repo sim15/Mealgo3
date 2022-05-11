@@ -71,4 +71,12 @@ dependencies {
 
     // Flexbox
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
+    // JSON parse
+    implementation 'com.squareup.retrofit2:converter-jackson:2.7.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.11.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.11.1'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

@@ -1,0 +1,52 @@
+{
+  "Vegetarian": {
+    "exclude": [
+      "meat"
+    ]
+  },
+  "Vegan": {
+    "exclude": [
+      "meat"
+    ]
+  },
+  "Keto": {
+    "exclude": [
+      "meat"
+    ]
+  },
+  "South Asian Cuisine": {
+    "exclude": [
+      "meat"
+    ]
+  },
+  "Italian": {
+    "exclude": [
+      "meat"
+    ]
+  },
+  "Meat": {
+    "exclude": [
+      "meat"
+    ]
+  },
+  "American": {
+    "exclude": [
+      "meat"
+    ]
+  },
+  "Fruits": {
+    "exclude": [
+      "meat"
+    ]
+  },
+  "Mexican Cuisine": {
+    "exclude": [
+      "meat"
+    ]
+  },
+  "Vegetables": {
+    "exclude": [
+      "meat"
+    ]
+  }
+}
