@@ -1,6 +1,7 @@
 package com.example.mealgo3.data;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Recipe {
@@ -15,7 +16,7 @@ public class Recipe {
     private Integer ReviewCount;
     private String TotalTime;
     private ArrayList<String> images;
-    private ArrayList<String> ingredients;
+    private List<String> ingredients;
     private Object nutrition;
     private ArrayList<String> substrings;
 
@@ -24,7 +25,7 @@ public class Recipe {
 
     }
 
-    public Recipe(Double aggregatedRating, String cookTime, ArrayList<String> keywords, String name, String prepTime, String recipeCategory, Integer recipeId, Integer reviewCount, String totalTime, ArrayList<String> images, ArrayList<String> ingredients, Object nutrition, ArrayList<String> substrings) {
+    public Recipe(Double aggregatedRating, String cookTime, ArrayList<String> keywords, String name, String prepTime, String recipeCategory, Integer recipeId, Integer reviewCount, String totalTime, ArrayList<String> images, List<String> ingredients, Object nutrition, ArrayList<String> substrings) {
         AggregatedRating = aggregatedRating;
         CookTime = cookTime;
         Keywords = keywords;
@@ -120,11 +121,11 @@ public class Recipe {
         this.images = images;
     }
 
-    public ArrayList<String> getIngredients() {
+    public List<String> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(ArrayList<String> ingredients) {
+    public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
 

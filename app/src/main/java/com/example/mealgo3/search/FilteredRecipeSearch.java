@@ -83,10 +83,16 @@ public class FilteredRecipeSearch extends AppCompatActivity {
         
         options =
                 new FirestoreRecyclerOptions.Builder<Recipe>()
-                        .setQuery(db.whereArrayContains("ingredients", "mayonnaise").limit(500), Recipe.class)
+                        .setQuery(db.limit(1000), Recipe.class)
                         .build();
 
-        recipeAdapter = new RecipeAdapter(options);
+        ArrayList<Map<String, ArrayList<String>>> selectedCategories = new ArrayList<Map<String, ArrayList<String>>>();
+
+        for (String cat : mainFilter.getStringArrayList("selected_categories")) {
+            selectedCategories.add(ingredientCategories.get(cat));
+        }
+
+        recipeAdapter = new RecipeAdapter(options, selectedCategories, mainFilter.getStringArrayList("selected_exclude_ingredients"));
 
         recipeAdapter.startListening();
         recyclerView.setAdapter(recipeAdapter);
