@@ -32,6 +32,12 @@
                 android:layout_height="87dp"
                 android:text="@string/toQuiz" />
 
+            <Button
+                android:id="@+id/toUser"
+                android:layout_width="match_parent"
+                android:layout_height="87dp"
+                android:text="@string/toUser" />
+
         </LinearLayout>
 
 

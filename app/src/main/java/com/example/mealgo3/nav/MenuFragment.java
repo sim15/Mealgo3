@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.example.mealgo3.R;
 import com.example.mealgo3.domain.MainActivity;
+import com.example.mealgo3.login.UserPageActivity;
 import com.example.mealgo3.quiz.ChooseActivity;
 
 /**
@@ -69,6 +70,16 @@ public class MenuFragment extends Fragment {
 
             }
         });
+
+        view.findViewById(R.id.toUser).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Clicked!");
+                listener.onSelectedMenu("menu has been clicked");
+                openUserPage();
+
+            }
+        });
         return view;
 
 
@@ -77,6 +88,11 @@ public class MenuFragment extends Fragment {
 
     private void openActivityChoose() {
         Intent intent = new Intent (getActivity(), ChooseActivity.class);
+        startActivity (intent);
+    }
+
+    private void openUserPage() {
+        Intent intent = new Intent (getActivity(), UserPageActivity.class);
         startActivity (intent);
     }
 

@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/alitvak/AndroidStudioProjects/Mealgo3/app/src/main/res/layout/activity_main.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/alitvak/AndroidStudioProjects/Mealgo3/app/src/main/res/layout/activity_sign_in.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/alitvak/AndroidStudioProjects/Mealgo3/app/src/main/res/layouts/layout_menu/layout/fragment_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/alitvak/AndroidStudioProjects/Mealgo3/app/src/main/res/layouts/layout_search/layout/activity_choose.xml" value="0.19010416666666666" />
+        <entry key="..\:/Users/alitvak/AndroidStudioProjects/Mealgo3/app/src/main/res/layouts/layout_search/layout/activity_user_page.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/alitvak/AndroidStudioProjects/Mealgo3/app/src/main/res/layouts/layout_search/layout/fragment_search.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/alitvak/AndroidStudioProjects/Mealgo3/app/src/main/res/layouts/layout_search/layout/preference_quiz.xml" value="0.20416666666666666" />
         <entry key="app/src/main/res/drawable/background_button.xml" value="0.41" />
         <entry key="app/src/main/res/drawable/background_image.xml" value="0.41" />
         <entry key="app/src/main/res/drawable/background_input.xml" value="0.41" />
