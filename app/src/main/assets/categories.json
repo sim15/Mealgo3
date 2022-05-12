@@ -1,50 +1,44 @@
 {
   "Vegetarian": {
+    "categoryName": ["Vegetarian"],
+    "include": ["mayonnaise"],
     "exclude": [
-      "meat"
+      "cheddar cheese",
+      "water",
+      "tomatoes"
     ]
   },
   "Vegan": {
+    "categoryName": ["Vegan"],
+    "include": [],
     "exclude": [
-      "meat"
+      "yoghurt"
     ]
   },
   "Keto": {
+    "categoryName": ["Keto"],
+    "include": ["mayonnaise"],
     "exclude": [
       "meat"
     ]
   },
   "South Asian Cuisine": {
-    "exclude": [
+  "categoryName": ["South Asian Cuisine"],
+    "include": [],
+  "exclude": [
       "meat"
     ]
   },
   "Italian": {
+    "categoryName": ["Italian"],
+    "include": [],
     "exclude": [
       "meat"
     ]
   },
   "Meat": {
-    "exclude": [
-      "meat"
-    ]
-  },
-  "American": {
-    "exclude": [
-      "meat"
-    ]
-  },
-  "Fruits": {
-    "exclude": [
-      "meat"
-    ]
-  },
-  "Mexican Cuisine": {
-    "exclude": [
-      "meat"
-    ]
-  },
-  "Vegetables": {
+    "categoryName": ["Meat"],
+    "include": [],
     "exclude": [
       "meat"
     ]
