@@ -7,12 +7,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealgo3.R;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 public class IngredientsViewHolder extends RecyclerView.ViewHolder {
     View view;
+
+
     public IngredientsViewHolder(@NonNull View itemView) {
         super(itemView);
         view = itemView;
+
+//        itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
     }
 
     public void setDetails(String ingredientName) {
@@ -23,4 +33,6 @@ public class IngredientsViewHolder extends RecyclerView.ViewHolder {
 //    public View getView(){
 //        return view;
 //    }
+
 }
+

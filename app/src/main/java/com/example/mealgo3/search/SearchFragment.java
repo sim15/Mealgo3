@@ -18,13 +18,12 @@ import com.example.mealgo3.R;
 import com.example.mealgo3.data.Ingredient;
 import com.example.mealgo3.data.Nutrient;
 import com.example.mealgo3.data.Recipe;
+import com.example.mealgo3.data.recyclerview.IngredientAdapter;
 import com.example.mealgo3.data.recyclerview.IngredientsViewHolder;
-import com.example.mealgo3.data.recyclerview.RandomNumListAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -36,11 +35,14 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class SearchFragment extends Fragment {
+    private SearchFragment.OnSelectedItem listener;
+    private static final ArrayList<String> TO_INCLUDE = new ArrayList<String>();
+    private static final ArrayList<String> TO_EXCLUDE = new ArrayList<String>();
 
     private RecyclerView recyclerView;
-    private CollectionReference ingredientDatabase;
+    private CollectionReference db;
     private String searchBarValue;
-    private FirestoreRecyclerAdapter<Ingredient,IngredientsViewHolder> firestoreRecycler;
+    private IngredientAdapter ingAdapter;
 
     private FirestoreRecyclerOptions<Ingredient> options;
 
@@ -60,37 +62,41 @@ public class SearchFragment extends Fragment {
     private ArrayList<Ingredient> selectedIngredients;
     private ArrayList<Recipe> selectedRecipes;
 
-    private OnFragmentInteractionListener mListener;
+    private ArrayList<String> includedItems;
+    private ArrayList<String> excludedItems;
 
     public SearchFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String query1, String ... queries) {
+    public static SearchFragment newInstance(ArrayList<String> includeQueries, ArrayList<String> excludeQueries) {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
-        ArrayList<String> queryParams = new ArrayList<String>() {
-            {
-                add(query1);
-                for (String query : queries) {
-                    add(query);
-                }
-            }
-        };
 
-        args.putStringArrayList(String.valueOf(QUERY_TYPE), queryParams);
+        args.putStringArrayList(String.valueOf(TO_INCLUDE), includeQueries);
+        args.putStringArrayList(String.valueOf(TO_EXCLUDE), excludeQueries);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        ingredientDatabase = FirebaseFirestore.getInstance().collection("food-data");
+        db = FirebaseFirestore.getInstance().collection("food-data");
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            queryType = getArguments().getStringArrayList(String.valueOf(QUERY_TYPE));
+            includedItems = getArguments().getStringArrayList(String.valueOf(TO_INCLUDE));
+            excludedItems = getArguments().getStringArrayList(String.valueOf(TO_EXCLUDE));
         }
+
+        options =
+                new FirestoreRecyclerOptions.Builder<Ingredient>()
+                        .setQuery(db.whereArrayContains("substrings", "").limit(50), Ingredient.class)
+                        .build();
+
+        ingAdapter = new IngredientAdapter(options);
+
+
     }
 
     @Override
@@ -109,17 +115,11 @@ public class SearchFragment extends Fragment {
 
 
 //        searchBarValue = String.valueOf(charSequence);
-        searchBarValue = "YES! OK!";
-        System.out.println(searchBarValue);
-
         // TODO 4/27/22: DRY-- potentially too much re-computation going on here.
 
-        Query newSearchQuery = ingredientDatabase.orderBy("similarity");
-
-        updateRecyclerSearch(newSearchQuery);
-
-
         EditText searchBarBox = (EditText) view.findViewById(R.id.search_field);
+
+
         searchBarBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -128,9 +128,9 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                searchBarValue = String.valueOf(charSequence);
-                Query newQuery = ingredientDatabase.whereArrayContains("substrings", searchBarValue);
-                System.out.println(searchBarValue);
+                searchBarValue = String.valueOf(charSequence).toLowerCase();
+                Query newQuery = db.whereArrayContains("substrings", searchBarValue);
+//                System.out.println(searchBarValue);
 
                 updateRecyclerSearch(newQuery);
             }
@@ -141,21 +141,23 @@ public class SearchFragment extends Fragment {
             }
         });
 
+
+        searchBarBox.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    recyclerView.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.GONE);
+                }
+            }
+        });
+
         return view;
     }
 
-    public void sendBack(String sendBackText) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(sendBackText);
-        }
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String sendBackText);
-    }
-
-
-    // TODO: 4/29/2022
+// https://www.youtube.com/watch?v=3WR4QAiVuCw&list=PLrnPJCHvNZuAXdWxOzsN5rgG2M4uJ8bH1&index=6
+//    TODO: Simon: left off at 6:02
     private void updateRecyclerSearch(Query searchQuery) {
 
 //        TODO: Decide limit for number of items returned.
@@ -164,24 +166,29 @@ public class SearchFragment extends Fragment {
                         .setQuery(searchQuery.limit(50), Ingredient.class)
                         .build();
 
-        firestoreRecycler = new FirestoreRecyclerAdapter<Ingredient, IngredientsViewHolder>(options)
-        {
+        ingAdapter.updateOptions(options);
+
+        ingAdapter.startListening();
+        recyclerView.setAdapter(ingAdapter);
+        ingAdapter.setOnItemClickListener(new IngredientAdapter.OnItemClickListener() {
             @Override
-            protected void onBindViewHolder(@NonNull IngredientsViewHolder holder, int position, @NonNull Ingredient model) {
-                holder.setDetails(model.getIngredientName());
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                Ingredient clicked = documentSnapshot.toObject(Ingredient.class);
+//                System.out.println(clicked.getIngredientName());
+                if (listener != null) {
+                    listener.onSelectedItem(clicked);
+                }
             }
-
-            @NonNull
-            @Override
-            public IngredientsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View aView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.layout_search_item, parent, false);
-
-                return new IngredientsViewHolder(aView);
-            }
-        };
-
-        firestoreRecycler.startListening();
-        recyclerView.setAdapter(firestoreRecycler);
+        });
     }
+
+
+    public interface OnSelectedItem {
+        void onSelectedItem(Ingredient selectedIngredient);
+    }
+
+    public void setOnSelectedItem(SearchFragment.OnSelectedItem listener) {
+        this.listener = listener;
+    }
+
 }

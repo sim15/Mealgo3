@@ -6,19 +6,26 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.HorizontalScrollView;
 
 import com.example.mealgo3.R;
+import com.example.mealgo3.data.Ingredient;
 import com.example.mealgo3.databinding.ActivityMainBinding;
+import com.example.mealgo3.databinding.ActivitySignInBinding;
+import com.example.mealgo3.login.SignUpActivity;
 import com.example.mealgo3.nav.MenuFragment;
 import com.example.mealgo3.search.SearchFragment;
-import com.example.mealgo3.selectrecipes.RecipeSelect;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
-public class MainActivity extends AppCompatActivity implements SearchFragment.OnFragmentInteractionListener {
+import java.util.ArrayList;
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private ArrayList<Map<String, ArrayList<String>>> ingredientCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,20 +34,13 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         setListeners();
         loadSearch();
     }
 
     private void setListeners() {
         binding.buttonMenu.setOnClickListener(v -> openMenu());
-
-        Button button = (Button) findViewById(R.id.recipeRecs);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), RecipeSelect.class));
-            }
-        });
     }
 
     private void openMenu() {
@@ -54,18 +54,64 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     }
 
     private void loadSearch() {
-        SearchFragment fragment = SearchFragment.newInstance("nutrients", "ingredients", "recipes");
+        loadChipGroupSearchFragment(R.id.includeIngredientsSearch, "SEARCH_FRAGMENT", binding.includeIngredientsChips, binding.includeIngredientsScroll);
+        loadChipGroupSearchFragment(R.id.excludeIngredientsSearch, "SEARCH_FRAGMENT", binding.excludeIngredientsChips, binding.excludeIngredientsScroll);
+    }
+
+    public SearchFragment loadSearchFragment(int containerViewId, String fragmentTag) {
+        SearchFragment fragment = SearchFragment.newInstance(new ArrayList<String>(), new ArrayList<String>());
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 //        transaction.addToBackStack(null);
-        transaction.add(R.id.searchFragment, fragment, "SEARCH_FRAGMENT").commit();
-        System.out.println("YESS!!!");
+
+        transaction.add(containerViewId, fragment, fragmentTag).commit();
+        return fragment;
     }
 
-    @Override
-    public void onFragmentInteraction(String sendBackText) {
-        System.out.println(sendBackText);
-    }
+    public void loadChipGroupSearchFragment(int containerViewId, String fragmentTag, ChipGroup cg, HorizontalScrollView chipScrollbar) {
+        loadSearchFragment(containerViewId, fragmentTag)
+                .setOnSelectedItem(new SearchFragment.OnSelectedItem() {
+                    @Override
+                    public void onSelectedItem(Ingredient selectedIngredient) {
+                        Chip ingChip = new Chip(
+                               cg.getContext()
+                        );
 
+
+                        ingChip.setText(selectedIngredient.getIngredientName());
+                        ingChip.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                cg.removeView(ingChip);
+                            }
+                        });
+
+                        for (int i = 0; i < cg.getChildCount(); i++) {
+                            if (((Chip) cg.getChildAt(i)).getText().toString()
+                                    .equals(selectedIngredient.getIngredientName())) {
+
+                                cg.removeView(cg.getChildAt(i));
+                            }
+                        }
+
+                        cg.addView(
+                                ingChip
+                        );
+
+                        // Remove duplicate chips
+
+
+                        chipScrollbar.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+
+                        // Update horizontal scroll on following UI-refresh iteration.
+                        chipScrollbar.post(new Runnable() {
+                            public void run() {
+                                chipScrollbar.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+                            }
+                        });
+
+                    }
+                });
+    }
 
 }

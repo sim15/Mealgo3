@@ -19,8 +19,6 @@ public class Recipe {
     public Map<String, Double> nutrition;
     public ArrayList<String> substrings;
 
-    public Recipe(){}
-
     public Recipe(Double aggregatedRating, String cookTime, ArrayList<String> keywords, String name, String prepTime, String recipeCategory, Integer recipeId, Integer reviewCount, String totalTime, ArrayList<String> images, ArrayList<String> ingredients, Map<String, Double> nutrition, ArrayList<String> substrings) {
         AggregatedRating = aggregatedRating;
         CookTime = cookTime;
