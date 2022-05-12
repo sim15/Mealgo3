@@ -2,7 +2,6 @@ package com.example.mealgo3.search;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,8 +18,6 @@ import com.example.mealgo3.data.Ingredient;
 import com.example.mealgo3.data.Nutrient;
 import com.example.mealgo3.data.Recipe;
 import com.example.mealgo3.data.recyclerview.IngredientAdapter;
-import com.example.mealgo3.data.recyclerview.IngredientsViewHolder;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;

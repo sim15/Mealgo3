@@ -5,21 +5,26 @@ import java.util.Map;
 
 public class Recipe {
     // TODO: Public?
-    public Double AggregatedRating;
-    public String CookTime;
-    public ArrayList<String> Keywords;
-    public String Name;
-    public String PrepTime;
-    public String RecipeCategory;
-    public Integer RecipeId;
-    public Integer ReviewCount;
-    public String TotalTime;
-    public ArrayList<String> images;
-    public ArrayList<String> ingredients;
-    public Map<String, Double> nutrition;
-    public ArrayList<String> substrings;
+    private Double AggregatedRating;
+    private String CookTime;
+    private ArrayList<String> Keywords;
+    private String Name;
+    private String PrepTime;
+    private String RecipeCategory;
+    private Integer RecipeId;
+    private Integer ReviewCount;
+    private String TotalTime;
+    private ArrayList<String> images;
+    private ArrayList<String> ingredients;
+    private Object nutrition;
+    private ArrayList<String> substrings;
 
-    public Recipe(Double aggregatedRating, String cookTime, ArrayList<String> keywords, String name, String prepTime, String recipeCategory, Integer recipeId, Integer reviewCount, String totalTime, ArrayList<String> images, ArrayList<String> ingredients, Map<String, Double> nutrition, ArrayList<String> substrings) {
+
+    public Recipe() {
+
+    }
+
+    public Recipe(Double aggregatedRating, String cookTime, ArrayList<String> keywords, String name, String prepTime, String recipeCategory, Integer recipeId, Integer reviewCount, String totalTime, ArrayList<String> images, ArrayList<String> ingredients, Object nutrition, ArrayList<String> substrings) {
         AggregatedRating = aggregatedRating;
         CookTime = cookTime;
         Keywords = keywords;
@@ -123,11 +128,11 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
-    public Map<String, Double> getNutrition() {
+    public Object getNutrition() {
         return nutrition;
     }
 
-    public void setNutrition(Map<String, Double> nutrition) {
+    public void setNutrition(Object nutrition) {
         this.nutrition = nutrition;
     }
 

@@ -1,9 +1,16 @@
 package com.example.mealgo3.domain;
 
+import static java.util.Map.entry;
+
+import com.example.mealgo3.search.FilteredRecipeSearch;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,13 +26,19 @@ import com.example.mealgo3.search.SearchFragment;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private ArrayList<Map<String, ArrayList<String>>> ingredientCategories;
+    private Map<String,Map<String, ArrayList<String>>> ingredientCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +50,18 @@ public class MainActivity extends AppCompatActivity {
 
         setListeners();
         loadSearch();
+        try {
+            loadCategoryChips();
+        } catch (IOException e) {
+            System.out.println("File not found");
+        }
     }
 
     private void setListeners() {
         binding.buttonMenu.setOnClickListener(v -> openMenu());
+        binding.filterButton.setOnClickListener(v ->
+                filterRecipes()
+                );
     }
 
     private void openMenu() {
@@ -112,6 +133,52 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    public void loadCategoryChips() throws IOException {
+//        Map<String, Map<String, ArrayList<String>>> categorySet = ;
+
+//        InputStream getCategoryJson = new FileInputStream("categories.json");
+
+        ingredientCategories =
+                new ObjectMapper().readValue(getAssets().open("categories.json"), HashMap.class);
+
+//        System.out.println(ingredientCategories.get("vegan").get("exclude"));
+
+        for (String category : ingredientCategories.keySet()) {
+            Chip categoryChip = (Chip) getLayoutInflater().inflate(R.layout.category_chip, binding.categoryChips, false);
+            categoryChip.setText(category);
+            binding.categoryChips.addView(categoryChip);
+        }
+    }
+
+    public void filterRecipes() {
+        Intent resultActivity = new Intent(getApplicationContext(), FilteredRecipeSearch.class);
+
+        ArrayList<String> selectedCategories = new ArrayList<String>();
+        for (Integer id : binding.categoryChips.getCheckedChipIds()) {
+            selectedCategories.add(((Chip) binding.categoryChips.findViewById(id)).getText().toString());
+        }
+
+        ArrayList<String> selectedIncludeIngredients = new ArrayList<String>();
+        for (int i = 0; i < binding.includeIngredientsChips.getChildCount(); i++) {
+            selectedIncludeIngredients.add(
+                    ((Chip) binding.includeIngredientsChips.getChildAt(i)).getText().toString()
+            );
+        }
+
+        ArrayList<String> selectedExcludeIngredients = new ArrayList<String>();
+        for (int i = 0; i < binding.excludeIngredientsChips.getChildCount(); i++) {
+            selectedExcludeIngredients.add(
+                    ((Chip) binding.excludeIngredientsChips.getChildAt(i)).getText().toString()
+            );
+        }
+
+        resultActivity.putExtra("selected_categories", selectedCategories);
+        resultActivity.putExtra("selected_include_ingredients", selectedIncludeIngredients);
+        resultActivity.putExtra("selected_exclude_ingredients", selectedExcludeIngredients);
+
+        startActivity(resultActivity);
     }
 
 }

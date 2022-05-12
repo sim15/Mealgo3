@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp"
+        >
+
+        <ImageView
+            android:id="@+id/recipePreview"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:src="@drawable/ic_baseline_crop_original_24"/>
+
+        <TextView
+            android:id="@+id/recipeName"
+            android:layout_toRightOf="@id/recipePreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_11ssp"
+            android:textColor="@color/text_dark"
+            tools:text="This is some temp text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/recipeDescription"
+            android:text="Description"
+            android:layout_below="@id/recipeName"
+            android:layout_toRightOf="@id/recipePreview" />
+
+
+
+    </RelativeLayout>
+
+
+</FrameLayout>

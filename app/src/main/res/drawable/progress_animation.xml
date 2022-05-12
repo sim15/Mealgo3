@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:gravity="center">
+
+        <animated-rotate xmlns:android="http://schemas.android.com/apk/res/android"
+            android:drawable="@drawable/ic_loading_icon"
+            android:duration="100"
+            android:fromDegrees="0"
+            android:interpolator="@android:anim/decelerate_interpolator"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:repeatMode="restart"
+            android:toDegrees="360" />
+    </item>
+</layer-list>
