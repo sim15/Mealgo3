@@ -16,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
             android:orientation="vertical">
 
@@ -31,14 +31,15 @@
                     android:id="@+id/buttonMenu"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/ic_baseline_menu_24" />
+                    android:src="@drawable/ic_baseline_menu_24"
+                    android:contentDescription="@string/open_menu_button" />
 
                 <ImageView
                     android:id="@+id/additionalOptionsButton"
                     android:layout_width="@dimen/_18sdp"
                     android:layout_height="@dimen/_18sdp"
                     android:src="@drawable/ic_three_dots_vertical"
-                    />
+                    android:contentDescription="@string/additional_options_menu" />
 
             </com.google.android.flexbox.FlexboxLayout>
 
@@ -53,7 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="Recipe Search"
+                    android:text="@string/recipe_search"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12ssp" />
 
@@ -65,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_18sdp"
                     android:layout_marginBottom="@dimen/_2sdp"
-                    android:text="Categories" />
+                    android:text="@string/categories" />
 
                 <TextView
                     android:id="@+id/categoryDescription"
@@ -73,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/categoryTitle"
                     android:layout_marginBottom="@dimen/_3sdp"
-                    android:text="Select recipe categories that interest you. All returned recipes will belong to one or more of these categories." />
+                    android:text="@string/select_recipe_categories_that_interest_you_all_returned_recipes_will_belong_to_one_or_more_of_these_categories" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/categoryChips"
@@ -90,13 +91,13 @@
                     android:layout_below="@id/categoryChips"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_2sdp"
-                    android:text="Include ingredients" />
+                    android:text="@string/include_ingredients" />
 
                 <TextView
                     android:id="@+id/includeIngredientsDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Add ingredients you want to try out. All returned recipes will contain at least one of these ingredients."
+                    android:text="@string/add_ingredients_you_want_to_try_out_all_returned_recipes_will_contain_at_least_one_of_these_ingredients"
                     android:layout_marginBottom="@dimen/_3sdp"
                     android:layout_below="@id/includeIngredientsTitle"/>
 
@@ -111,7 +112,7 @@
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/includeIngredientsChips"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="@dimen/_2sdp"
@@ -138,7 +139,7 @@
                     android:layout_below="@id/includeIngredientsScroll"
                     android:layout_marginTop="@dimen/_40sdp"
                     android:layout_marginBottom="@dimen/_2sdp"
-                    android:text="Exclude ingredients" />
+                    android:text="@string/exclude_ingredients" />
 
                 <TextView
                     android:id="@+id/excludeIngredientsDescription"
@@ -146,7 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/excludeIngredientsTitle"
                     android:layout_marginBottom="@dimen/_3sdp"
-                    android:text="Add any ingredients you are allergic to or are looking to avoid. None of the returned recipes will contain any of these ingredients." />
+                    android:text="@string/add_any_ingredients_you_are_allergic_to_or_are_looking_to_avoid_none_of_the_returned_recipes_will_contain_any_of_these_ingredients" />
 
                 <HorizontalScrollView
                     android:id="@+id/excludeIngredientsScroll"
@@ -159,7 +160,7 @@
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/excludeIngredientsChips"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="@dimen/_2sdp"
@@ -184,8 +185,7 @@
 
             <View
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/_60sdp"
-                android:layout_below="@id/excludeIngredientsSearch" />
+                android:layout_height="@dimen/_60sdp" />
 
         </LinearLayout>
     </ScrollView>
@@ -196,7 +196,7 @@
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/background_button"
-        android:text="Find Recipes"
+        android:text="@string/find_recipes"
         android:textSize="@dimen/_10ssp"
         app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
         android:elevation="@dimen/_10sdp"

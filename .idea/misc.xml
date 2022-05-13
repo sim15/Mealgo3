@@ -22,6 +22,7 @@
         <entry key="app/src/main/res/layouts/layout_search/layout/activity_recipe_recs.xml" value="0.27245508982035926" />
         <entry key="app/src/main/res/layouts/layout_search/layout/activity_recipe_select.xml" value="0.2796875" />
         <entry key="app/src/main/res/layouts/layout_search/layout/activity_recipe_web_view.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layouts/layout_search/layout/category_chip.xml" value="0.5208333333333334" />
         <entry key="app/src/main/res/layouts/layout_search/layout/choose.xml" value="0.246875" />
         <entry key="app/src/main/res/layouts/layout_search/layout/content_news_web_view.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layouts/layout_search/layout/content_recipe_web_view.xml" value="0.1" />

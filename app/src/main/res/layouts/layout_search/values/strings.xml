@@ -15,6 +15,21 @@
     <string name="simpleRatingBar">Rate Food</string>
     <string name="food">Recipe Names</string>
     <string name="toQuiz">To Quiz</string>
+    <string name="mealgo">MealGo</string>
+    <string name="please_sign_in_to_continue">Please sign in to continue</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="find_recipes">Find Recipes</string>
+    <string name="add_any_ingredients_you_are_allergic_to_or_are_looking_to_avoid_none_of_the_returned_recipes_will_contain_any_of_these_ingredients">Add any ingredients you are allergic to or are looking to avoid. None of the returned recipes will contain any of these ingredients.</string>
+    <string name="exclude_ingredients">Exclude ingredients</string>
+    <string name="add_ingredients_you_want_to_try_out_all_returned_recipes_will_contain_at_least_one_of_these_ingredients">Add ingredients you want to try out. All returned recipes will contain at least one of these ingredients.</string>
+    <string name="include_ingredients">Include ingredients</string>
+    <string name="select_recipe_categories_that_interest_you_all_returned_recipes_will_belong_to_one_or_more_of_these_categories">Select recipe categories that interest you. All returned recipes will belong to one or more of these categories.</string>
+    <string name="categories">Categories</string>
+    <string name="recipe_search">Recipe Search</string>
+    <string name="additional_options_menu">Additional options menu</string>
+    <string name="open_menu_button">Open menu button</string>
 
     <string-array name="nomes">
         <item>bean</item>
