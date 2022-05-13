@@ -1,4 +1,24 @@
 {
+  "Keto": {
+    "categoryName": ["Keto"],
+    "include": [
+      "ground beef",
+      "clams",
+      "eggs",
+      "cottage cheese",
+      "salmon",
+      "chicken",
+      "chicken breast",
+      "american cheese"
+      ],
+    "exclude": [
+      "pineapple",
+      "peas",
+      "butter",
+      "dry white beans",
+      "oatmeal"
+    ]
+  },
   "Vegetables": {
     "categoryName": ["Vegetables"],
     "include": [

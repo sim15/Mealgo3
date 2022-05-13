@@ -33,6 +33,7 @@
     <string name="note_the_following_section_is_not_fully_implemented_and_is_not_part_of_our_minimum_viable_product_this_is_simple_a_proof_of_concept_n_this_portion_is_intended_to_provide_meal_recommendation_by_implementing_a_collaborative_filtering_algorithm_that_links_to_user_profiles_this_is_a_future_feature">Note: the following section is not fully implemented and is NOT part of our minimum viable product. This is simple a proof-of-concept. \n This portion is intended to provide meal recommendation by implementing a collaborative filtering algorithm that links to user profiles. This is a future feature.</string>
     <string name="blank" />
     <string name="search_for_an_ingredient">Search for an ingredient&#8230;</string>
+    <string name="recipe_image_display">recipe image display</string>
 
     <string-array name="nomes">
         <item>bean</item>
