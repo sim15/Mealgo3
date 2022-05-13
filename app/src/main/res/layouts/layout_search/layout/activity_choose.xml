@@ -6,31 +6,63 @@
     android:layout_height="match_parent"
     tools:context=".rating.Choose">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonMenu2"
-        android:layout_width="@dimen/_20sdp"
-        android:layout_height="@dimen/_20sdp"
-        android:layout_marginBottom="920dp"
-        android:background="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
+    <LinearLayout
+        android:id="@+id/topMenuHeader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/_10sdp"
+        >
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:justifyContent="space_between"
+            app:alignItems="center">
+
+            <ImageView
+                android:id="@+id/buttonMenu"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:src="@drawable/ic_baseline_menu_24"
+                android:contentDescription="@string/open_menu_button" />
+
+            <ImageView
+                android:id="@+id/additionalOptionsButton"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
+                android:src="@drawable/ic_three_dots_vertical"
+                android:contentDescription="@string/additional_options_menu" />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/note_the_following_section_is_not_fully_implemented_and_is_not_part_of_our_minimum_viable_product_this_is_simple_a_proof_of_concept_n_this_portion_is_intended_to_provide_meal_recommendation_by_implementing_a_collaborative_filtering_algorithm_that_links_to_user_profiles_this_is_a_future_feature"/>
+
+    </LinearLayout>
+
+
 
     <Button
         android:id="@+id/buttonskip2"
-        android:layout_width="104dp"
-        android:layout_height="93dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="42dp"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_11ssp"
+        android:layout_margin="@dimen/_9sdp"
         android:text="@string/buttonskip"
+        android:textSize="@dimen/_11ssp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/submitButton2"
-        android:layout_width="232dp"
-        android:layout_height="113dp"
-        android:layout_marginBottom="84dp"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_12sdp"
+        android:textSize="@dimen/_11ssp"
+        android:layout_marginBottom="@dimen/_80sdp"
         android:text="@string/submitButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,9 +70,9 @@
 
     <RatingBar
         android:id="@+id/simpleRatingBar2"
-        android:layout_width="241dp"
-        android:layout_height="75dp"
-        android:layout_marginBottom="260dp"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_150sdp"
         android:contentDescription="@string/simpleRatingBar"
         android:numStars="5"
         android:progressTint="#FFEB3B"
@@ -51,15 +83,14 @@
 
     <TextView
         android:id="@+id/food2"
-        android:layout_width="501dp"
-        android:layout_height="85dp"
-        android:layout_marginTop="460dp"
-        android:layout_marginBottom="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/food"
-        android:textSize="60sp"
+        android:textSize="@dimen/_20sdp"
         app:layout_constraintBottom_toTopOf="@id/simpleRatingBar2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.636"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

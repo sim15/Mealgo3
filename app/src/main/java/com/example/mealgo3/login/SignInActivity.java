@@ -30,6 +30,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private void signIn() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        // remove activity from stack so users cannot return to it following a successful login
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }

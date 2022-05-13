@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.mealgo3.R;
 import com.example.mealgo3.databinding.ActivitySignUpBinding;
 
 public class SignUpActivity extends AppCompatActivity {

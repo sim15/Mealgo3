@@ -1,42 +1,18 @@
 package com.example.mealgo3.data;
 
-//import java.util.ArrayList;
-//
-//public class Ingredient {
-//    public String name, description, category;
-//    ArrayList<Nutrient> nutrients;
-//
-//    public Ingredient(String name) {
-//        this.name = name;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
-//
-//    public void setCategory(String category) {
-//        this.category = category;
-//    }
-//
-//    public void addNutrient(Nutrient newNutrient) {
-//        this.nutrients.add(newNutrient);
-//    }
-//
-//}
-
 import java.util.ArrayList;
 import java.util.Map;
 
 public class Ingredient {
-   public  String foodCategory;
-   public Map<String, Nutrient> foodNutrients;
-   public String ingredientName;
-   public String ingredients;
-   public String lowercaseDescription;
-   public Integer servingSize;
-   public String servingSizeUnit;
-   public Integer similarity;
-   public ArrayList<String> substrings;
+    private  String foodCategory;
+    private Map<String, Nutrient> foodNutrients;
+    private String ingredientName;
+    private String ingredients;
+    private String lowercaseDescription;
+    private Integer servingSize;
+    private String servingSizeUnit;
+    private Integer similarity;
+    private ArrayList<String> substrings;
 
 
    public Ingredient() {

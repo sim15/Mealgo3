@@ -1,6 +1,6 @@
 package com.example.mealgo3.data.recyclerview;
 
-import android.os.Build;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealgo3.R;
@@ -21,26 +20,23 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Stream;
+import java.util.Objects;
 
 
 public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapter.RecipeHolder> {
     private OnItemClickListener listener;
-    private ArrayList<Map<String, ArrayList<String>>> categories;
-    private ArrayList<String> toExclude;
+    private final ArrayList<Map<String, ArrayList<String>>> categories;
+    private final ArrayList<String> toExclude;
 
-// , Set<String> inclusionFilter, Set<String> exclusionFilter
     public RecipeAdapter(@NonNull FirestoreRecyclerOptions<Recipe> options, ArrayList<Map<String, ArrayList<String>>> categories, ArrayList<String> exclusionFilter) {
         super(options);
         this.categories = categories;
         toExclude = exclusionFilter;
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onBindViewHolder(@NonNull RecipeHolder holder, int position, @NonNull Recipe model) {
         String toSet = model.getName();
@@ -54,26 +50,24 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
 
         ArrayList<String> matches = returnMatchingCategories(model);
 
+        // load only ingredients that fall into a provided category filter
         if (matches.size() == 0) {
             holder.view.setVisibility(View.GONE);
             holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
             return;
         } else {
-            System.out.println(matches);
             // This conditional branch is required due to the recycling of view holders
             // otherwise, other views will continue to be hidden when recycled.
             holder.itemView.setVisibility(View.VISIBLE);
             holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
 
+        // clear ingredients when loading stops. this is required to prevent duplicate chips at
+        // refresh time.
         holder.MatchedCategories.removeAllViews();
 
-//        for (int i = 0; i < holder.MatchedCategories.getChildCount(); i++) {
-//            holder.MatchedCategories.removeView(holder.MatchedCategories.getChildAt(i));
-//        }
-
+        // load chips for matched recipe categories
         for (String matchedCat : matches) {
-//            Chip categoryChip = (Chip) getLayoutInflater().inflate(R.layout.category_chip, holder.MatchedCategories, false);
             Chip categoryChip = new Chip(holder.MatchedCategories.getContext());
             categoryChip.setText(matchedCat);
             categoryChip.setCheckable(false);
@@ -81,6 +75,9 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
             holder.MatchedCategories.addView(categoryChip);
         }
 
+        // load recipe image (take the first available image)
+        // if no image is available, load a default
+        // if the URL is not functional, load a broken image icon
         if (model.getImages().size() > 0) {
             Picasso
                     .get()
@@ -119,14 +116,11 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
 
             view = itemView;
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAbsoluteAdapterPosition();
-                    // Error handling in the case when the item is clicked during  removal.
-                    if (position != RecyclerView.NO_POSITION && listener != null) {
-                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
-                    }
+            itemView.setOnClickListener(v -> {
+                int position = getAbsoluteAdapterPosition();
+                // Error handling in the case when the item is clicked during  removal.
+                if (position != RecyclerView.NO_POSITION && listener != null) {
+                    listener.onItemClick(getSnapshots().getSnapshot(position), position);
                 }
             });
         }
@@ -153,31 +147,29 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
         return position;
     }
 
+
+
+    // return ArrayList of all category names that match the recipe
+    // must include at least one of the 'include' ingredients
+    // must NOT include a single one of the 'exclude' ingredients
     private ArrayList<String> returnMatchingCategories(Recipe r) {
 
-        ArrayList<String> matches = new ArrayList<String>();
+        ArrayList<String> matches = new ArrayList<>();
 
         if ((toExclude.size() > 0) && !Collections.disjoint(r.getIngredients(), toExclude)) {
-            System.out.println(r.getName() + "- exclusion!");
-            System.out.println(r.getIngredients());
-            System.out.println(toExclude);
             return matches;
         }
 
 
 
         for (Map<String, ArrayList<String>> category : categories) {
-            System.out.println(Collections.disjoint(r.getIngredients(), category.get("include")));
 
-            if ((category.get("include").size() == 0) ||
-                    !Collections.disjoint(r.getIngredients(), category.get("include"))) {
+            if ((Objects.requireNonNull(category.get("include")).size() == 0) ||
+                    !Collections.disjoint(r.getIngredients(), Objects.requireNonNull(category.get("include")))) {
 
-                System.out.println(r.getName() + "- match include!");
-                System.out.println(r.getIngredients());
-                System.out.println(category.get("include"));
-                if ((category.get("exclude").size() < 1) ||
-                        Collections.disjoint(r.getIngredients(), category.get("exclude"))) {
-                    matches.add(category.get("categoryName").get(0));
+                if ((Objects.requireNonNull(category.get("exclude")).size() < 1) ||
+                        Collections.disjoint(r.getIngredients(), Objects.requireNonNull(category.get("exclude")))) {
+                    matches.add(Objects.requireNonNull(category.get("categoryName")).get(0));
                 }
             }
         }

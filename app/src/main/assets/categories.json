@@ -1,46 +1,62 @@
 {
-  "Vegetarian": {
-    "categoryName": ["Vegetarian"],
-    "include": ["mayonnaise"],
+  "Vegetables": {
+    "categoryName": ["Vegetables"],
+    "include": [
+      "mayonnaise",
+      "tomatoes",
+      "avocado",
+      "cucumber",
+      "carrots",
+      "lettuce",
+      "pepper",
+      "barley",
+      "onion",
+      "garlic"
+    ],
     "exclude": [
-      "cheddar cheese",
-      "water",
-      "tomatoes"
-    ]
-  },
-  "Vegan": {
-    "categoryName": ["Vegan"],
-    "include": [],
-    "exclude": [
-      "yoghurt"
-    ]
-  },
-  "Keto": {
-    "categoryName": ["Keto"],
-    "include": ["mayonnaise"],
-    "exclude": [
-      "meat"
-    ]
-  },
-  "South Asian Cuisine": {
-  "categoryName": ["South Asian Cuisine"],
-    "include": [],
-  "exclude": [
-      "meat"
-    ]
-  },
-  "Italian": {
-    "categoryName": ["Italian"],
-    "include": [],
-    "exclude": [
-      "meat"
-    ]
-  },
+    ]},
   "Meat": {
     "categoryName": ["Meat"],
-    "include": [],
+    "include": [
+      "bacon",
+      "beef",
+      "chicken",
+      "boneless skinless chicken breasts",
+      "ground beef",
+      "ground sausage",
+      "ground pork"
+    ],
     "exclude": [
-      "meat"
+      "sugar",
+      "walnuts",
+      "flour",
+      "cinnamon"
+    ]
+  },
+  "Vegetarian": {
+    "categoryName": ["Vegetarian"],
+    "include": [
+      "tomatoes",
+      "avocado",
+      "cucumber",
+      "carrots",
+      "lettuce",
+      "pepper",
+      "barley",
+      "onion",
+      "garlic",
+      "eggs",
+      "potato",
+      "tofu"
+    ],
+    "exclude": [
+      "bacon",
+      "beef",
+      "chicken",
+      "boneless skinless chicken breasts",
+      "ground beef",
+      "ground sausage",
+      "ground pork"
     ]
   }
 }

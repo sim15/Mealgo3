@@ -15,7 +15,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 
-
+// adapter for each ingredient displayed in the SearchFragment
 public class IngredientAdapter extends FirestoreRecyclerAdapter<Ingredient, IngredientAdapter.IngredientHolder> {
     private OnItemClickListener listener;
 
@@ -41,24 +41,17 @@ public class IngredientAdapter extends FirestoreRecyclerAdapter<Ingredient, Ingr
     }
 
     public class IngredientHolder extends RecyclerView.ViewHolder {
-        View view;
-
         TextView ingredientName;
-
 
         public IngredientHolder(@NonNull View itemView) {
             super(itemView);
             ingredientName = itemView.findViewById(R.id.randomText);
-//            view = itemView;
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAbsoluteAdapterPosition();
-                    // Error handling in the case when the item is clicked during  removal.
-                    if (position != RecyclerView.NO_POSITION && listener != null) {
-                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
-                    }
+            itemView.setOnClickListener(v -> {
+                int position = getAbsoluteAdapterPosition();
+                // Error handling in the case when the item is clicked during  removal.
+                if (position != RecyclerView.NO_POSITION && listener != null) {
+                    listener.onItemClick(getSnapshots().getSnapshot(position), position);
                 }
             });
         }

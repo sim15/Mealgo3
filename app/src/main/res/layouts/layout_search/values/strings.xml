@@ -21,15 +21,18 @@
     <string name="password">Password</string>
     <string name="sign_in">Sign In</string>
     <string name="find_recipes">Find Recipes</string>
-    <string name="add_any_ingredients_you_are_allergic_to_or_are_looking_to_avoid_none_of_the_returned_recipes_will_contain_any_of_these_ingredients">Add any ingredients you are allergic to or are looking to avoid. None of the returned recipes will contain any of these ingredients.</string>
+    <string name="add_any_ingredients_you_are_allergic_to_or_are_looking_to_avoid_none_of_the_returned_recipes_will_contain_any_of_these_ingredients">Add up to 10 ingredients you are allergic to or are looking to avoid. None of the returned recipes will contain any of these ingredients.</string>
     <string name="exclude_ingredients">Exclude ingredients</string>
-    <string name="add_ingredients_you_want_to_try_out_all_returned_recipes_will_contain_at_least_one_of_these_ingredients">Add ingredients you want to try out. All returned recipes will contain at least one of these ingredients.</string>
+    <string name="add_ingredients_you_want_to_try_out_all_returned_recipes_will_contain_at_least_one_of_these_ingredients">Add up to 10 ingredients you want to try out. All returned recipes will contain at least one of these ingredients.</string>
     <string name="include_ingredients">Include ingredients</string>
     <string name="select_recipe_categories_that_interest_you_all_returned_recipes_will_belong_to_one_or_more_of_these_categories">Select recipe categories that interest you. All returned recipes will belong to one or more of these categories.</string>
     <string name="categories">Categories</string>
     <string name="recipe_search">Recipe Search</string>
     <string name="additional_options_menu">Additional options menu</string>
     <string name="open_menu_button">Open menu button</string>
+    <string name="note_the_following_section_is_not_fully_implemented_and_is_not_part_of_our_minimum_viable_product_this_is_simple_a_proof_of_concept_n_this_portion_is_intended_to_provide_meal_recommendation_by_implementing_a_collaborative_filtering_algorithm_that_links_to_user_profiles_this_is_a_future_feature">Note: the following section is not fully implemented and is NOT part of our minimum viable product. This is simple a proof-of-concept. \n This portion is intended to provide meal recommendation by implementing a collaborative filtering algorithm that links to user profiles. This is a future feature.</string>
+    <string name="blank" />
+    <string name="search_for_an_ingredient">Search for an ingredient&#8230;</string>
 
     <string-array name="nomes">
         <item>bean</item>

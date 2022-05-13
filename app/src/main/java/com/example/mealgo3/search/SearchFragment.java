@@ -15,16 +15,11 @@ import android.widget.EditText;
 
 import com.example.mealgo3.R;
 import com.example.mealgo3.data.Ingredient;
-import com.example.mealgo3.data.Nutrient;
-import com.example.mealgo3.data.Recipe;
 import com.example.mealgo3.data.recyclerview.IngredientAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,8 +28,6 @@ import java.util.ArrayList;
  */
 public class SearchFragment extends Fragment {
     private SearchFragment.OnSelectedItem listener;
-    private static final ArrayList<String> TO_INCLUDE = new ArrayList<String>();
-    private static final ArrayList<String> TO_EXCLUDE = new ArrayList<String>();
 
     private RecyclerView recyclerView;
     private CollectionReference db;
@@ -43,49 +36,21 @@ public class SearchFragment extends Fragment {
 
     private FirestoreRecyclerOptions<Ingredient> options;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final ArrayList<String> QUERY_TYPE = new ArrayList<String>() {
-        {
-            add("ingredients");
-        }
-    };
-
-
-
-    // TODO: Rename and change types of parameters
-    private ArrayList<String> queryType;
-    private ArrayList<Nutrient> selectedNutrients;
-    private ArrayList<Ingredient> selectedIngredients;
-    private ArrayList<Recipe> selectedRecipes;
-
-    private ArrayList<String> includedItems;
-    private ArrayList<String> excludedItems;
-
     public SearchFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(ArrayList<String> includeQueries, ArrayList<String> excludeQueries) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-
-        args.putStringArrayList(String.valueOf(TO_INCLUDE), includeQueries);
-        args.putStringArrayList(String.valueOf(TO_EXCLUDE), excludeQueries);
-        fragment.setArguments(args);
-        return fragment;
+    public static SearchFragment newInstance() {
+        return new SearchFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        // ingredient database instance
         db = FirebaseFirestore.getInstance().collection("food-data");
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            includedItems = getArguments().getStringArrayList(String.valueOf(TO_INCLUDE));
-            excludedItems = getArguments().getStringArrayList(String.valueOf(TO_EXCLUDE));
-        }
 
+        // begin with empty substring search query
         options =
                 new FirestoreRecyclerOptions.Builder<Ingredient>()
                         .setQuery(db.whereArrayContains("substrings", "").limit(50), Ingredient.class)
@@ -111,23 +76,21 @@ public class SearchFragment extends Fragment {
         );
 
 
-//        searchBarValue = String.valueOf(charSequence);
-        // TODO 4/27/22: DRY-- potentially too much re-computation going on here.
-
         EditText searchBarBox = (EditText) view.findViewById(R.id.search_field);
 
-
+        // text-search functionality
         searchBarBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
+            // request search query every time text is changed in input text box
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // convert to lowercase prior to completing a substring search
                 searchBarValue = String.valueOf(charSequence).toLowerCase();
                 Query newQuery = db.whereArrayContains("substrings", searchBarValue);
-//                System.out.println(searchBarValue);
 
                 updateRecyclerSearch(newQuery);
             }
@@ -138,26 +101,23 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
-        searchBarBox.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    recyclerView.setVisibility(View.VISIBLE);
-                } else {
-                    recyclerView.setVisibility(View.GONE);
-                }
+        // hide search bar suggestion box if the text box is not selected
+        searchBarBox.setOnFocusChangeListener((view1, hasFocus) -> {
+            if (hasFocus) {
+                recyclerView.setClickable(false);
+                recyclerView.setVisibility(View.VISIBLE);
+            } else {
+                recyclerView.setClickable(false);
+                recyclerView.setVisibility(View.GONE);
             }
         });
 
         return view;
     }
 
-// https://www.youtube.com/watch?v=3WR4QAiVuCw&list=PLrnPJCHvNZuAXdWxOzsN5rgG2M4uJ8bH1&index=6
-//    TODO: Simon: left off at 6:02
     private void updateRecyclerSearch(Query searchQuery) {
 
-//        TODO: Decide limit for number of items returned.
+        // adjustable query limit-- by default is at 50 items
         options =
                 new FirestoreRecyclerOptions.Builder<Ingredient>()
                         .setQuery(searchQuery.limit(50), Ingredient.class)
@@ -167,16 +127,19 @@ public class SearchFragment extends Fragment {
 
         ingAdapter.startListening();
         recyclerView.setAdapter(ingAdapter);
-        ingAdapter.setOnItemClickListener(new IngredientAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                Ingredient clicked = documentSnapshot.toObject(Ingredient.class);
-//                System.out.println(clicked.getIngredientName());
-                if (listener != null) {
-                    listener.onSelectedItem(clicked);
-                }
+
+        // create item click listener for clicked ingredient in search results
+        // used to interface with MainActivity to store chip group of selected ingredients
+        ingAdapter.setOnItemClickListener((documentSnapshot, position) -> {
+
+            Ingredient clicked = documentSnapshot.toObject(Ingredient.class);
+
+            if (listener != null) {
+                listener.onSelectedItem(clicked);
             }
+
         });
+
     }
 
 

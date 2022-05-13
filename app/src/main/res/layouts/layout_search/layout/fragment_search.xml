@@ -15,7 +15,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint=" "
+            android:hint="@string/blank"
             app:hintEnabled="false"
             app:endIconMode="clear_text">
 
@@ -23,8 +23,10 @@
                 android:id="@+id/search_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Search for an ingredient..."
+                android:hint="@string/search_for_an_ingredient"
                 android:ems="10"
+                android:imeOptions="actionNext"
+                android:focusableInTouchMode="true"
                 android:maxLines="1"
                 android:maxLength="30"
                 android:inputType="text|textCapSentences"
@@ -45,6 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:overScrollMode="never"
+                android:clickable="false"
                 android:visibility="gone"/>
 
 

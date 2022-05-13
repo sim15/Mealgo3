@@ -8,11 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.mealgo3.R;
 import com.example.mealgo3.rating.Choose;
-import com.example.mealgo3.domain.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,8 +18,6 @@ import com.example.mealgo3.domain.MainActivity;
  * create an instance of this fragment.
  */
 public class MenuFragment extends Fragment {
-    private MenuFragment.OnSelectedMenuItem listener;
-    private Button one;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -35,8 +31,7 @@ public class MenuFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static MenuFragment newInstance() {
-        MenuFragment fragment = new MenuFragment();
-        return fragment;
+        return new MenuFragment();
     }
 
     @Override
@@ -49,7 +44,6 @@ public class MenuFragment extends Fragment {
     }
 
     public void setOnSelectedMenu(MenuFragment.OnSelectedMenuItem listener) {
-        this.listener = listener;
     }
 
     @Override
@@ -58,15 +52,7 @@ public class MenuFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
 
-        view.findViewById(R.id.toQuiz).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("Clicked!");
-                listener.onSelectedMenu("menu has been clicked");
-                openActivityChoose();
-
-            }
-        });
+        view.findViewById(R.id.toQuiz).setOnClickListener(v -> openActivityChoose());
 
 
         return view;

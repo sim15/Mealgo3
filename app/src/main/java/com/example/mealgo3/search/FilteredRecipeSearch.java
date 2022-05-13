@@ -5,19 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.View;
 
-import com.example.mealgo3.R;
-import com.example.mealgo3.data.Ingredient;
 import com.example.mealgo3.data.Recipe;
-import com.example.mealgo3.data.recyclerview.IngredientAdapter;
 import com.example.mealgo3.data.recyclerview.RecipeAdapter;
 import com.example.mealgo3.databinding.ActivityFilteredRecipeSearchBinding;
-import com.example.mealgo3.databinding.ActivityMainBinding;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
@@ -31,25 +25,16 @@ public class FilteredRecipeSearch extends AppCompatActivity {
     private Map<String, Map<String, ArrayList<String>>> ingredientCategories;
 
 
-
-    private RecyclerView recyclerView;
-    private CollectionReference db;
-    private String searchBarValue;
-    private RecipeAdapter recipeAdapter;
-
-    private FirestoreRecyclerOptions<Recipe> options;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityFilteredRecipeSearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // retrieve selected categories and ingredients
         mainFilter = getIntent().getExtras();
-        System.out.println(mainFilter.getStringArrayList("selected_categories").toString());
-        System.out.println(mainFilter.getStringArrayList("selected_include_ingredients").toString());
-        System.out.println(mainFilter.getStringArrayList("selected_exclude_ingredients").toString());
 
+        // load categories. stop running activity if there is an error-- checked exception
         try {
             loadCategories();
         } catch (IOException e) {
@@ -57,6 +42,7 @@ public class FilteredRecipeSearch extends AppCompatActivity {
             FilteredRecipeSearch.this.finish();
         }
 
+        // load the list of resulting recipes
         loadRecycler();
 
     }
@@ -70,39 +56,49 @@ public class FilteredRecipeSearch extends AppCompatActivity {
     private void loadRecycler() {
 
 
-
-
-
-        recyclerView = binding.recipeResults;
+        RecyclerView recyclerView = binding.recipeResults;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new
                 LinearLayoutManager(binding.getRoot().getContext())
         );
 
-        db = FirebaseFirestore.getInstance().collection("recipes");
-        
-        options =
-                new FirestoreRecyclerOptions.Builder<Recipe>()
-                        .setQuery(db.limit(1000), Recipe.class)
-                        .build();
+        // load instance of recipe database
+        CollectionReference db = FirebaseFirestore.getInstance().collection("recipes");
 
-        ArrayList<Map<String, ArrayList<String>>> selectedCategories = new ArrayList<Map<String, ArrayList<String>>>();
+
+        // current limit of recipe results is 1000-- can be modified
+        int querySizes = 1000;
+
+        FirestoreRecyclerOptions<Recipe> options;
+
+        if (mainFilter.getStringArrayList("selected_include_ingredients").size() > 0) {
+             options = new FirestoreRecyclerOptions.Builder<Recipe>()
+                    .setQuery(db.whereArrayContainsAny("ingredients", mainFilter.getStringArrayList("selected_include_ingredients")).limit(querySizes), Recipe.class)
+                    .build();
+        } else {
+            options = new FirestoreRecyclerOptions.Builder<Recipe>()
+                    .setQuery(db.limit(querySizes), Recipe.class)
+                    .build();
+        }
+
+
+        ArrayList<Map<String, ArrayList<String>>> selectedCategories = new ArrayList<>();
 
         for (String cat : mainFilter.getStringArrayList("selected_categories")) {
             selectedCategories.add(ingredientCategories.get(cat));
         }
 
-        recipeAdapter = new RecipeAdapter(options, selectedCategories, mainFilter.getStringArrayList("selected_exclude_ingredients"));
+        RecipeAdapter recipeAdapter = new RecipeAdapter(options, selectedCategories, mainFilter.getStringArrayList("selected_exclude_ingredients"));
 
         recipeAdapter.startListening();
         recyclerView.setAdapter(recipeAdapter);
 
-        recipeAdapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                Recipe clicked = documentSnapshot.toObject(Recipe.class);
-                System.out.println(clicked.getName());
-            }
+        // event handler for a clicked recipe
+        recipeAdapter.setOnItemClickListener((documentSnapshot, position) -> {
+            Recipe clicked = documentSnapshot.toObject(Recipe.class);
+            assert clicked != null;
+            // temporary check to ensure listeners function properly when selecting recipes individually
+            System.out.println(clicked.getName());
         });
         
     }

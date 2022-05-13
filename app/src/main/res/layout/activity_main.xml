@@ -97,9 +97,9 @@
                     android:id="@+id/includeIngredientsDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_ingredients_you_want_to_try_out_all_returned_recipes_will_contain_at_least_one_of_these_ingredients"
+                    android:layout_below="@id/includeIngredientsTitle"
                     android:layout_marginBottom="@dimen/_3sdp"
-                    android:layout_below="@id/includeIngredientsTitle"/>
+                    android:text="@string/add_ingredients_you_want_to_try_out_all_returned_recipes_will_contain_at_least_one_of_these_ingredients" />
 
 
                 <HorizontalScrollView
