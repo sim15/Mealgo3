@@ -72,12 +72,26 @@ public class MainActivity extends AppCompatActivity {
         transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_from_left, R.anim.enter_from_left, R.anim.exit_from_left);
         transaction.addToBackStack(null);
         transaction.add(R.id.menuFragment, fragment, "MENU_FRAGMENT").commit();
+
+        fragment.setOnSelectedMenu(new MenuFragment.OnSelectedMenuItem() {
+            @Override
+            public void onSelectedMenu(String menuButton) {
+                System.out.print(menuButton);
+            }
+        });
+
+
     }
 
     private void loadSearch() {
         loadChipGroupSearchFragment(R.id.includeIngredientsSearch, "SEARCH_FRAGMENT", binding.includeIngredientsChips, binding.includeIngredientsScroll);
         loadChipGroupSearchFragment(R.id.excludeIngredientsSearch, "SEARCH_FRAGMENT", binding.excludeIngredientsChips, binding.excludeIngredientsScroll);
     }
+
+    public void OnFragmentInteraction(String sendBackText) {
+        System.out.println(sendBackText);
+    }
+
 
     public SearchFragment loadSearchFragment(int containerViewId, String fragmentTag) {
         SearchFragment fragment = SearchFragment.newInstance(new ArrayList<String>(), new ArrayList<String>());
@@ -180,5 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(resultActivity);
     }
+
+
 
 }

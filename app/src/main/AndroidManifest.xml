@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mealgo3">
         <activity
+            android:name=".rating.Choose"
+            android:exported="false" />
+        <activity
             android:name=".search.FilteredRecipeSearch"
             android:exported="true" />
         <activity
@@ -29,8 +32,7 @@
             android:name=".domain.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-            />
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
