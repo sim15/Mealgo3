@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 
 import com.example.mealgo3.R;
@@ -102,6 +104,11 @@ public class FilteredRecipeSearch extends AppCompatActivity {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Recipe clicked = documentSnapshot.toObject(Recipe.class);
                 System.out.println(clicked.getName());
+
+                Intent intent = new Intent(FilteredRecipeSearch.this, details.class);
+
+                intent.putExtra("RECIPE", clicked);
+                startActivity(intent);
             }
         });
         

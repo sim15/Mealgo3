@@ -1,25 +1,32 @@
 {
   "Vegetarian": {
     "categoryName": ["Vegetarian"],
-    "include": ["mayonnaise"],
+    "include": ["water", "tomatoes", "carrot", "lemon"],
     "exclude": [
-      "cheddar cheese",
-      "water",
-      "tomatoes"
+      "poultry",
+      "chicken broth",
+      "ground beef"
     ]
   },
   "Vegan": {
     "categoryName": ["Vegan"],
-    "include": [],
+    "include": ["tomatoes","onion", "water"],
     "exclude": [
-      "yoghurt"
+      "egg",
+      "cottage cheese",
+      "chicken broth",
+      "ground beef"
     ]
   },
   "Keto": {
     "categoryName": ["Keto"],
-    "include": ["mayonnaise"],
+    "include": ["ground beef", "clams", "eggs",  "cottage cheese"],
     "exclude": [
-      "meat"
+      "pineapple",
+      "peas",
+      "butter",
+      "dry white beans",
+      "oatmeal"
     ]
   },
   "South Asian Cuisine": {
@@ -38,9 +45,9 @@
   },
   "Meat": {
     "categoryName": ["Meat"],
-    "include": [],
+    "include": ["ham","ground pork", "ground beef", "ground sausage", "lean","boneless chicken breast"],
     "exclude": [
-      "meat"
+      ""
     ]
   }
 }

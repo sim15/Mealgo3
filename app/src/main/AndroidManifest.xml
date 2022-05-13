@@ -16,6 +16,9 @@
             android:name=".search.FilteredRecipeSearch"
             android:exported="true" />
         <activity
+            android:name=".search.details"
+            android:exported="true" />
+        <activity
             android:name=".login.SignInActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">

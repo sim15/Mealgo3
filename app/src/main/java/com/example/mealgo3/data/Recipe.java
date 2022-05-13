@@ -1,10 +1,11 @@
 package com.example.mealgo3.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Recipe {
+public class Recipe implements Serializable {
     // TODO: Public?
     private Double AggregatedRating;
     private String CookTime;
