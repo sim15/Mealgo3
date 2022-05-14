@@ -1,20 +1,19 @@
 package com.example.mealgo3.search;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.mealgo3.R;
 import com.example.mealgo3.data.Recipe;
 import com.squareup.picasso.Picasso;
 
-import java.util.jar.Attributes;
+import java.util.ArrayList;
 
 public class details extends AppCompatActivity {
 
@@ -25,11 +24,10 @@ public class details extends AppCompatActivity {
 
         TextView nameView = findViewById(R.id.recipeName);
         ImageView imageView= findViewById(R.id.recipeImage);
-        RecyclerView recyclerView = findViewById(R.id.ingredientList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ListView ingredientView = findViewById(R.id.ingredientList);
+        TextView ingredientTitle = findViewById(R.id.ingredientTitle);
 
         Intent i = getIntent();
-        String Name = i.getStringExtra("NAME");
         Recipe recipe = (Recipe)i.getSerializableExtra("RECIPE");
 
 
@@ -43,6 +41,17 @@ public class details extends AppCompatActivity {
                     .into(imageView);
         }
 
+        ingredientTitle.setText("Ingredients");
+
+
+
+        ArrayList<String> ingredientlist = (ArrayList<String>) recipe.getIngredients();
+        System.out.println(ingredientlist);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_listview, R.id.textView, ingredientlist);
+        ingredientView.setAdapter(arrayAdapter);
 
     }
+
+
 }

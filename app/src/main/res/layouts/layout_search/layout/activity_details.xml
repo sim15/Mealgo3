@@ -12,10 +12,8 @@
         android:layout_height="@dimen/_200sdp"
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_20sdp"
         android:contentDescription="@string/recipe_image_display"
-        android:src="@drawable/ic_baseline_crop_original_24"
-       />
+        android:src="@drawable/ic_baseline_crop_original_24" />
 
 
     <TextView
@@ -24,12 +22,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/recipeImage"
         android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="-37dp"
-        android:textColor="@color/text_dark"
-        android:textSize="@dimen/_20sdp"
-        tools:text="This is some temp text"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="-37dp"
         android:background="@color/cardview_light_background"
-        />
+        android:textColor="@color/text_dark"
+        android:textSize="@dimen/_30sdp"
+        tools:text="This is some temp text" />
 
 
     <TextView
@@ -38,21 +38,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/recipeName"
         android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:background="@color/cardview_shadow_end_color"
         android:textColor="@color/text_dark"
-        android:textSize="@dimen/_15sdp"
-        tools:text="Title"
-        android:background="@color/cardview_light_background"
-        />
+        android:textSize="@dimen/_20sdp"
+        tools:text="Ingredients" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
+    <ListView
         android:id="@+id/ingredientList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/ingredientTitle"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_5sdp" />
+        android:divider="@color/cardview_dark_background"
+        />
 
 
 </RelativeLayout>
