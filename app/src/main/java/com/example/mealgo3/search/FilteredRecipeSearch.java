@@ -6,6 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import com.example.mealgo3.data.Recipe;
 import com.example.mealgo3.data.recyclerview.RecipeAdapter;
 import com.example.mealgo3.databinding.ActivityFilteredRecipeSearchBinding;
@@ -23,7 +27,8 @@ public class FilteredRecipeSearch extends AppCompatActivity {
     private ActivityFilteredRecipeSearchBinding binding;
     Bundle mainFilter;
     private Map<String, Map<String, ArrayList<String>>> ingredientCategories;
-
+    private ProgressBar loadingProgressBar;
+    private TextView noResults;
 
 
     @Override
@@ -34,6 +39,9 @@ public class FilteredRecipeSearch extends AppCompatActivity {
 
         // load information from inclusion/selection of user
         mainFilter = getIntent().getExtras();
+
+        loadingProgressBar = binding.progressBar;
+        noResults = binding.noResults;
 
         // load categories from external JSON. Checked exception.
         try {
@@ -60,7 +68,17 @@ public class FilteredRecipeSearch extends AppCompatActivity {
         RecyclerView recyclerView = binding.recipeResults;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new
-                LinearLayoutManager(binding.getRoot().getContext())
+                LinearLayoutManager(binding.getRoot().getContext()) {
+                    @Override
+                    public void onLayoutCompleted(RecyclerView.State state) {
+                        super.onLayoutCompleted(state);
+                        if (findFirstCompletelyVisibleItemPosition() == -1) {
+                            noResults.setVisibility(View.VISIBLE);
+                        } else {
+                            noResults.setVisibility(View.GONE);
+                        }
+                    }
+                }
         );
 
         CollectionReference db = FirebaseFirestore.getInstance().collection("recipes");
@@ -88,16 +106,24 @@ public class FilteredRecipeSearch extends AppCompatActivity {
             selectedCategories.add(ingredientCategories.get(cat));
         }
 
-        RecipeAdapter recipeAdapter = new RecipeAdapter(options, selectedCategories, mainFilter.getStringArrayList("selected_exclude_ingredients"));
+        RecipeAdapter recipeAdapter = new RecipeAdapter(options, selectedCategories, mainFilter.getStringArrayList("selected_exclude_ingredients")){
+            @Override
+            public void onDataChanged() {
+                loadingProgressBar.setVisibility(View.GONE);
+                if ((getItemCount() == 0) || (getNumResults() == 0)) {
+                    noResults.setVisibility(View.VISIBLE);
+                }
+            }
 
-        recipeAdapter.startListening();
+        };
+
         recyclerView.setAdapter(recipeAdapter);
+        recipeAdapter.startListening();
 
         // open a recipe when clicked
         recipeAdapter.setOnItemClickListener((documentSnapshot, position) -> {
             Recipe clicked = documentSnapshot.toObject(Recipe.class);
             assert clicked != null;
-            System.out.println(clicked.getName());
 
             Intent intent = new Intent(FilteredRecipeSearch.this, details.class);
 

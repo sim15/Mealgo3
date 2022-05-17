@@ -19,6 +19,8 @@
             app:hintEnabled="false"
             app:endIconMode="clear_text">
 
+
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/search_field"
                 android:layout_width="match_parent"
@@ -40,6 +42,27 @@
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="@dimen/_13sdp"
+                android:layout_height="@dimen/_13sdp"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/no_results"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="No results found..."
+                android:visibility="gone"/>
+
+        </RelativeLayout>
 
 
             <androidx.recyclerview.widget.RecyclerView

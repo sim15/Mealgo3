@@ -29,11 +29,13 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
     private OnItemClickListener listener;
     private final ArrayList<Map<String, ArrayList<String>>> categories;
     private final ArrayList<String> toExclude;
+    private int numResults;
 
     public RecipeAdapter(@NonNull FirestoreRecyclerOptions<Recipe> options, ArrayList<Map<String, ArrayList<String>>> categories, ArrayList<String> exclusionFilter) {
         super(options);
         this.categories = categories;
         toExclude = exclusionFilter;
+        numResults = 0;
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -51,14 +53,15 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
         ArrayList<String> matches = returnMatchingCategories(model);
 
         // load only ingredients that fall into a provided category filter
-        if (matches.size() == 0) {
+        if ((matches.size() == 0) && (categories.size() > 0)) {
             holder.view.setVisibility(View.GONE);
             holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
             return;
         } else {
             // This conditional branch is required due to the recycling of view holders
             // otherwise, other views will continue to be hidden when recycled.
-            holder.itemView.setVisibility(View.VISIBLE);
+//            holder.itemView.setVisibility(View.VISIBLE);
+            numResults++;
             holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
 
@@ -88,6 +91,10 @@ public class RecipeAdapter extends FirestoreRecyclerAdapter<Recipe, RecipeAdapte
                     .error(holder.RecipePreview.getContext().getResources().getDrawable(R.drawable.ic_baseline_broken_image_24))
                     .into(holder.RecipePreview);
         }
+    }
+
+    public int getNumResults() {
+        return numResults;
     }
 
     @NonNull
