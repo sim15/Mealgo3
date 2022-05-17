@@ -136,10 +136,11 @@
                     style="@style/survey_header_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/includeIngredientsScroll"
+                    android:layout_below="@id/includeIngredientsSearch"
                     android:layout_marginTop="@dimen/_40sdp"
                     android:layout_marginBottom="@dimen/_2sdp"
-                    android:text="@string/exclude_ingredients" />
+                    android:text="@string/exclude_ingredients"
+                    />
 
                 <TextView
                     android:id="@+id/excludeIngredientsDescription"
